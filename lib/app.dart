@@ -30,13 +30,14 @@ class _AutheAppState extends State<AutheApp> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<AppState>.value(
       value: _state,
-      child: Consumer<AppState>(
-        builder: (context, state, _) => MaterialApp(
+      child: Builder(
+        builder: (context) => MaterialApp(
           title: 'Authe',
           debugShowCheckedModeBanner: false,
           theme: buildLightTheme(),
           darkTheme: buildDarkTheme(),
-          themeMode: state.themeMode,
+          themeMode:
+              context.select<AppState, ThemeMode>((s) => s.themeMode),
           home: const HomePage(),
         ),
       ),
