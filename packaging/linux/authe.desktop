@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Authe
+Comment=Two-factor authentication codes
+Exec=authe
+Icon=authe
+Categories=Utility;Security;
+Terminal=false

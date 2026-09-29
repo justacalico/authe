@@ -15,7 +15,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>authe</string>
+	<string>Authe</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Authe uses the camera to scan two-factor QR codes.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
