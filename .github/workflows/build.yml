@@ -320,7 +320,7 @@ jobs:
           rm -rf "$APPDIR"
           mkdir -p "$APPDIR"
           cp -r "$BUNDLE/." "$APPDIR/"
-          mv "$APPDIR/authe" "$APPDIR/AppRun"
+          ln -s authe "$APPDIR/AppRun"
           cp packaging/linux/authe.desktop "$APPDIR/"
           cp packaging/linux/authe.png "$APPDIR/"
           curl -fsSL --retry 3 -o /tmp/appimagetool "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$TOOL_ARCH.AppImage"
