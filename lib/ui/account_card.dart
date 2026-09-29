@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +59,7 @@ class AccountCard extends StatelessWidget {
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   letterSpacing: 2,
+                  fontFeatures: const [FontFeature.tabularFigures()],
                   color: remaining <= 5
                       ? theme.colorScheme.error
                       : theme.colorScheme.onSurface,

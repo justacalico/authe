@@ -25,30 +25,27 @@ class SettingsView extends StatelessWidget {
       children: [
         _SectionHeader('Appearance'),
         Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: SegmentedButton<ThemeMode>(
-              segments: const [
-                ButtonSegment(
-                  value: ThemeMode.system,
-                  icon: Icon(Icons.settings_suggest_outlined),
-                  label: Text('System'),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.light,
-                  icon: Icon(Icons.light_mode_outlined),
-                  label: Text('Light'),
-                ),
-                ButtonSegment(
-                  value: ThemeMode.dark,
-                  icon: Icon(Icons.dark_mode_outlined),
-                  label: Text('Dark'),
-                ),
-              ],
-              selected: {state.themeMode},
-              onSelectionChanged: (selection) =>
-                  state.setThemeMode(selection.first),
-            ),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            children: [
+              _ThemeRow(
+                title: 'System',
+                icon: Icons.settings_suggest_outlined,
+                mode: ThemeMode.system,
+              ),
+              const Divider(height: 1, indent: 52),
+              _ThemeRow(
+                title: 'Light',
+                icon: Icons.light_mode_outlined,
+                mode: ThemeMode.light,
+              ),
+              const Divider(height: 1, indent: 52),
+              _ThemeRow(
+                title: 'Dark',
+                icon: Icons.dark_mode_outlined,
+                mode: ThemeMode.dark,
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 20),
@@ -114,6 +111,33 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       body: const SettingsView(),
+    );
+  }
+}
+
+/// One row in the Appearance group; shows a check on the active mode.
+class _ThemeRow extends StatelessWidget {
+  const _ThemeRow({
+    required this.title,
+    required this.icon,
+    required this.mode,
+  });
+
+  final String title;
+  final IconData icon;
+  final ThemeMode mode;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
+    final selected = state.themeMode == mode;
+    return ListTile(
+      leading: Icon(icon, size: 22),
+      title: Text(title),
+      trailing: selected
+          ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+          : null,
+      onTap: () => state.setThemeMode(mode),
     );
   }
 }

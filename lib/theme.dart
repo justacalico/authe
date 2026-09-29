@@ -14,6 +14,7 @@ ThemeData buildLightTheme() {
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
+    fontFamily: 'Inter',
     scaffoldBackgroundColor: const Color(0xFFF2F2F7),
     cardTheme: CardThemeData(
       color: Colors.white,
@@ -47,6 +48,7 @@ ThemeData buildDarkTheme() {
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
+    fontFamily: 'Inter',
     scaffoldBackgroundColor: Colors.black,
     cardTheme: CardThemeData(
       color: const Color(0xFF1C1C1E),

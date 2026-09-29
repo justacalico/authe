@@ -208,7 +208,7 @@ class _CodesPane extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 340,
-                        mainAxisExtent: 132,
+                        mainAxisExtent: 150,
                         mainAxisSpacing: 12,
                         crossAxisSpacing: 12,
                       ),

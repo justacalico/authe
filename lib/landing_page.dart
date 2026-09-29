@@ -9,7 +9,7 @@ import 'totp.dart';
 /// Web entry point. The web build is a marketing/download page only; the
 /// authenticator itself never runs in a browser.
 class LandingPage extends StatelessWidget {
-  const LandingPage({super.key});
+  const LandingPage({super.key, this.clock});
 
   static const releasesBase =
       'https://gitlab.com/HttpAnimations/authe/-/releases/permalink/latest/downloads';
@@ -18,13 +18,16 @@ class LandingPage extends StatelessWidget {
   static const altstoreUrl =
       'altstore://source?URL=https%3A%2F%2Fhttpanimations.gitlab.io%2Fauthe%2Faltstore%2Fapps.json';
 
+  /// Injected clock for deterministic tests; production uses DateTime.now.
+  final DateTime Function()? clock;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Authe',
       debugShowCheckedModeBanner: false,
       theme: _landingTheme(),
-      home: const _LandingBody(),
+      home: _LandingBody(clock: clock),
     );
   }
 
@@ -32,6 +35,7 @@ class LandingPage extends StatelessWidget {
     const card = Color(0xFF1C1C1E);
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'Inter',
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF0C0C0E),
       colorScheme: ColorScheme.fromSeed(
@@ -56,7 +60,9 @@ class LandingPage extends StatelessWidget {
 }
 
 class _LandingBody extends StatelessWidget {
-  const _LandingBody();
+  const _LandingBody({this.clock});
+
+  final DateTime Function()? clock;
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +73,12 @@ class _LandingBody extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 540),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _Hero(),
-                  SizedBox(height: 36),
-                  _DemoCard(),
+                  const _Hero(),
+                  const SizedBox(height: 36),
+                  _DemoCard(clock: clock),
                   SizedBox(height: 36),
                   _Downloads(),
                   SizedBox(height: 28),
@@ -124,7 +130,9 @@ class _Hero extends StatelessWidget {
 /// A live TOTP code generated in the browser from a public demo secret,
 /// ticking exactly like the real app does.
 class _DemoCard extends StatefulWidget {
-  const _DemoCard();
+  const _DemoCard({this.clock});
+
+  final DateTime Function()? clock;
 
   static const _secret = 'JBSWY3DPEHPK3PXP';
 
@@ -134,13 +142,16 @@ class _DemoCard extends StatefulWidget {
 
 class _DemoCardState extends State<_DemoCard> {
   late Timer _ticker;
-  DateTime _now = DateTime.now();
+  late DateTime Function() _clock;
+  late DateTime _now;
 
   @override
   void initState() {
     super.initState();
+    _clock = widget.clock ?? DateTime.now;
+    _now = _clock();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      setState(() => _now = DateTime.now());
+      setState(() => _now = _clock());
     });
   }
 
@@ -176,6 +187,7 @@ class _DemoCardState extends State<_DemoCard> {
               style: theme.textTheme.displaySmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 letterSpacing: 4,
+                fontFeatures: const [FontFeature.tabularFigures()],
                 color: scheme.primary,
               ),
             ),

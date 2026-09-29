@@ -192,21 +192,19 @@ class _ManualEntryState extends State<_ManualEntry> {
                 },
               ),
               const SizedBox(height: 10),
+              DropdownButtonFormField<OtpAlgorithm>(
+                initialValue: _algorithm,
+                decoration: const InputDecoration(labelText: 'Algorithm'),
+                items: OtpAlgorithm.values
+                    .map((a) =>
+                        DropdownMenuItem(value: a, child: Text(a.uriValue)))
+                    .toList(),
+                onChanged: (v) =>
+                    setState(() => _algorithm = v ?? OtpAlgorithm.sha1),
+              ),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(
-                    child: DropdownButtonFormField<OtpAlgorithm>(
-                      initialValue: _algorithm,
-                      decoration: const InputDecoration(labelText: 'Algorithm'),
-                      items: OtpAlgorithm.values
-                          .map((a) => DropdownMenuItem(
-                              value: a, child: Text(a.uriValue)))
-                          .toList(),
-                      onChanged: (v) =>
-                          setState(() => _algorithm = v ?? OtpAlgorithm.sha1),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       initialValue: _digits,
